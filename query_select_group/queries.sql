@@ -10,6 +10,19 @@ FROM `courses`
 WHERE `cfu` > 10;
 
 --3. Selezionare tutti gli studenti che hanno più di 30 anni--
+--prima soluzione
+SELECT `name`, `surname` 
+FROM `students` 
+WHERE `date_of_birth` <= '1991-09-29';
+--seconda soluzione
+SELECT `name`, `surname` 
+FROM `students` 
+WHERE TIMESTAMPDIFF(YEAR, `date_of_birth`, CURDATE()) > 30; --CURDATE() sta per data corrente
+--terza soluzione
+SELECT `name`, `surname` 
+FROM `students` 
+WHERE `date_of_birth` < DATE_SUB(CURDATE(), INTERVAL 30 YEAR); --DATE_SUB() fa una operazione tra la data corrente e gli anni/mesi/giorni che voglio togliere [TOGLIMI LA DATA ATTUALE DA UNA DATA INTERA E CI RESTITUISCE UNA DATA NUOVA CON QUELLO TOLTO] INTERVAL
+
 
 --4. Selezionare tutti i corsi del primo semestre del primo anno di un qualsiasi corso di laurea (286)--
 SELECT `period`,`year` 
@@ -29,12 +42,15 @@ FROM `degrees`
 WHERE `level`= 'magistrale';
 
 --7. Da quanti dipartimenti è composta l'università? (12)--
-SELECT * 
+--da sistemare
+SELECT COUNT(*) AS `numero_dipartimenti` 
 FROM `departments`
+WHERE `phone` IS NULL;
 
 --8. Quanti sono gli insegnanti che non hanno un numero di telefono? (50)--
-SELECT * 
+SELECT COUNT(*) AS `numero_insegnanti` 
 FROM `teachers`
-WHERE `phone` LIKE '%';
+WHERE `phone` IS NULL;
+
 
 
